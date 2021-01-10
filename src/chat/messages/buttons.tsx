@@ -27,11 +27,19 @@ export default class ButtonsType extends MessageType {
     }
 
     performAction(button: IButton) {
+        this.props.messageHandler({
+            text: button.title,
+            type: 'text',
+            from: 'visitor'
+        });
+
         botman.callAPI(button.payload, true, null, (msg: IMessage) => {
             this.setState({ attachmentsVisible : false});
             this.props.messageHandler({
                 text: msg.text,
                 type: msg.type,
+                elements: msg.elements,
+                buttons: msg.buttons,
                 actions: msg.actions,
                 attachment: msg.attachment,
                 additionalParameters: msg.additionalParameters,
